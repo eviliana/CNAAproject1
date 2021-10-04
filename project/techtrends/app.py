@@ -68,6 +68,20 @@ def healthz():
 
 	return response
 
+
+# Define the metrics endpoint
+@app.route('/metrics')
+def metrics():
+	response = app.response_class(
+		response=json.dumps({{
+			"db_connection_count": connection_count,
+			"post_count": get_total_posts()
+		}}),
+		status=200,
+		mimetype='application/json'
+	)
+	return response
+
 # Define the post creation functionality
 @app.route('/create', methods=('GET', 'POST'))
 def create():
