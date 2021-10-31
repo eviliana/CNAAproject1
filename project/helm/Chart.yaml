@@ -1,0 +1,9 @@
+## The chart API version
+apiVersion: v1
+name: techtrends 
+description: CNAA Project 1
+keywords:
+- techtrends
+version: 1.0.0
+maintainers:
+- name: eviliana
