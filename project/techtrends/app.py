@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
@@ -58,7 +59,7 @@ def post(post_id):
 		app.logger.info("A non-existing article is accessed and a 404 page is returned")
 		return render_template('404.html'), 404
 	else:
-		app.logger.info('Article "%s" retrieved', post.title)
+		app.logger.info('Article %s retrieved', post['title'])
 		return render_template('post.html', post=post)
 
 
@@ -111,7 +112,7 @@ def create():
 			connection.commit()
 			connection.close()
 
-			app.logger.info('Article "%s" created', title)
+			app.logger.info('Article %s created', title)
 			return redirect(url_for('index'))
 
 	return render_template('create.html')
@@ -119,9 +120,8 @@ def create():
 
 # start the application on port 3111
 if __name__ == "__main__":
-	# stream logs to app.log file
 	logging.basicConfig(
-		filename='app.log',
+		stream=sys.stdout,
 		level=logging.DEBUG,
 		format='%(levelname)s: %(asctime)s - %(message)s',
 		datefmt='[%d/%b/%Y %H:%M:%S]'
