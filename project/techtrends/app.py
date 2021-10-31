@@ -15,7 +15,7 @@ def get_db_connection():
 	connection = sqlite3.connect('database.db')
 	connection.row_factory = sqlite3.Row
 	global connection_count
-	connection_count = connection_count + 1
+	connection_count += 1
 	return connection
 
 
@@ -34,7 +34,6 @@ def get_total_posts():
 	total_posts = connection.execute('SELECT * FROM posts').fetchall()
 	connection.close()
 	return len(total_posts)
-
 
 # Define the Flask application
 app = Flask(__name__)
@@ -81,18 +80,13 @@ def healthz():
 
 	return response
 
-
 # Define the metrics endpoint
 @app.route('/metrics')
 def metrics():
-	response = app.response_class(
-		response=json.dumps({{
-			"db_connection_count": connection_count,
-			"post_count": get_total_posts()
-		}}),
-		status=200,
-		mimetype='application/json'
-	)
+	response = {
+		"db_connection_count": connection_count,
+		"post_count": get_total_posts()
+	}
 	return response
 
 
