@@ -1,10 +1,12 @@
 FROM python:2.7
 
-COPY ./techtrends ./
-
 WORKDIR /app
 
+COPY ./techtrends/requirements.txt ./
+
 RUN pip install -r requirements.txt
+
+COPY ./techtrends ./
 
 EXPOSE 3111
 
